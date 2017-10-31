@@ -6,7 +6,7 @@ Created on Tue Oct 31 17:37:15 2017
 """
 import numpy as np
 
-def make_gram(numpy_arr:np.ndarray, N:int, step = 1):
+def make_gram(numpy_arr:np.ndarray, N:int, step:int = 1):
     """window sliding method
     
     x = np.array([1,2,3,4])
@@ -18,14 +18,14 @@ def make_gram(numpy_arr:np.ndarray, N:int, step = 1):
     >> array([[1, 2],
        [3, 4]])
     """
-    row = numpy_arr.shape[0]
+    row:int = numpy_arr.shape[0]
     return np.array([numpy_arr[i:i+N] for i in range(0, row-N+1, step)])
 
-def make_kernel_gram(numpy_arr:np.ndarray, N:int, step = 1, kernel = lambda x : x):
+def make_kernel_gram(numpy_arr:np.ndarray, N:int, step:int = 1, kernel = lambda x : x):
     """ see `n_gram.make_gram`
     `make_kernel_gram` applys a function on each gram.
     """
-    row = numpy_arr.shape[0]
+    row:int = numpy_arr.shape[0]
     return np.array([kernel(numpy_arr[i:i+N]) for i in range(0, row-N+1, step)])
 
 

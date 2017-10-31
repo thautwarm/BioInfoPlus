@@ -6,6 +6,7 @@ Created on Tue Oct 31 17:25:51 2017
 """
 from research.cython.n_gram import make_gram as cmg
 from research.n_gram import make_gram as mg
+import cython_test
 import numpy as np
 x = np.array([1,2,3,4,5])
 cmg(x, 2)
