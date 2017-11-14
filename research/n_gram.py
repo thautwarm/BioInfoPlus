@@ -1,32 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 31 19:24:10 2017
+Created on Tue Nov 14 10:37:43 2017
 
-@author: misaka-wa
+@author: misakawa
 """
-import numpy as np
-
-def make_gram(numpy_arr:np.ndarray, N:int, step = 1):
-    """window sliding method
+import warnings
+try:
+    import pyximport
+    pyximport.install()
+    from .cython.n_gram import *
     
-    x = np.array([1,2,3,4])
-    make_gram(x, 2, 1)
-    >> array([[1, 2],
-       [2, 3],
-       [3, 4]])
-    make_gram(x, 2, step=2)
-    >> array([[1, 2],
-       [3, 4]])
-    """
-    row = numpy_arr.shape[0]
-    return np.array([numpy_arr[i:i+N] for i in range(0, row-N+1, step)])
-
-def make_kernel_gram(numpy_arr:np.ndarray, N:int, step = 1, kernel = lambda x : x):
-    """ see `n_gram.make_gram`
-    `make_kernel_gram` applys a function on each gram.
-    """
-    row = numpy_arr.shape[0]
-    return np.array([kernel(numpy_arr[i:i+N]) for i in range(0, row-N+1, step)])
-
-
-    
+except:
+    warnings.warn('''C-extension failed, use original python. 
+              Download VS2017 C++ Build Tools to speed algorithms!''')
+    from .original.n_gram import *
