@@ -8,7 +8,7 @@ see configurations at `./download/dsspPKU.json`.
 python dsspGet.py dsspPKU.json
 ```
 
-## process datas into dataframe
+## Process datas into dataframes
 
 ```python
 from preprocess.BioParser import bio_parse
@@ -18,7 +18,7 @@ Structure = dataframe.STRUCTURE # secondary structure
 ```
 
 
-## check the frequency distribution of specific known pattern
+## Check the frequency distribution of specific known pattern
 
 ```python
 cases = np.array([AA, Structure]).T
