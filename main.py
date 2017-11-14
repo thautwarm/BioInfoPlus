@@ -3,6 +3,9 @@
 Created on Tue Nov 14 11:18:14 2017
 
 @author: misakawa
+
+Making statistical analysis on some dssp datas.
+
 """
 
 
@@ -31,7 +34,16 @@ frequency = specific_report(grams, {0:'V', 1:'A'}) # 研究分布
 
 print(frequency.values())
 key2ind = dict(zip(frequency.keys(), range(len(frequency))))
-ind = np.array(list(key2ind.values()))
-values = [frequency[key] for key in key2ind]
-plt.bar(ind, values)
+ind =  np.array(list(key2ind.values()), dtype=np.int32)
+values = np.array([frequency[key] for key in key2ind])
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.set_title('First of sequence is V, while the second is A.')
+ax.set_ylabel('Probability')
+ax.bar(ind, values)
+ax.set_xticks(ind)
+x_labeled = ax.set_xticklabels([f'c{i}' for i in ind])
+plt.show()
+
+
 
