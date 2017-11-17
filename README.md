@@ -86,5 +86,7 @@ for test_some_case_dist in list(whole.keys())[:20]:
     plot_frequency(whole[test_some_case_dist])
 ```
 
+Some figures have been output, however I have to put quite few ones here:
+
 [![fig1](https://github.com/thautwarm/BioInfoPlus/raw/master/figure/dist-prob1.png)](https://github.com/thautwarm/BioInfoPlus/raw/master/figure/dist-prob1.png)
 [![fig2](https://github.com/thautwarm/BioInfoPlus/raw/master/figure/dist-prob2.png)](https://github.com/thautwarm/BioInfoPlus/raw/master/figure/dist-prob2.png)
