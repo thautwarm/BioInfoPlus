@@ -1,6 +1,18 @@
 # BioInfoPlus
 
-## get datas from bioinformation databases
+## Requirement
+
+- NumPy
+- Pandas
+- Matplotlib
+- Cython(Optional, for speeding up algorithms)
+
+P.S:  
+`Cython` compiler requires a C++ compiler, and if you use `Windows 8/8.1/10`, please download **VC++2017 Build Tools** from **Visual Studio 2017 Installer**.   
+Next, find out where **vcvarsall.bat** is in your computer, finally, add its path into system environment **PATH**.
+
+
+## Get datas from bioinformation databases
 
 use `./download/dsspGet.py`.  
 see configurations at `./download/dsspPKU.json`.
@@ -33,7 +45,8 @@ print(frequency.values())
 
 - [Codes](./main.py)
 
-- [![Fig](./simple.png)](./simple.png)
+- [![Fig](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/simple.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/simple.png)
+
 
 Explanation:
 ```
@@ -52,3 +65,25 @@ c1 :
 c2 :
     ...
 ```
+
+## Analysis on big datasets composed by multiple data files
+
+```python
+
+sources = ['./dssp/sources/1a00.dssp', 
+           './dssp/sources/1a0a.dssp',
+           './dssp/sources/1a0b.dssp',
+           './dssp/sources/1a0c.dssp',
+           './dssp/sources/1a0d.dssp']
+
+from research.datasets_report import DatasetsReport
+from research.plot import plot_frequency
+whole = DatasetsReport(*sources).analyze(filtf=lambda probability, std, mean: probability>0.4)
+number_of_dist = len(whole)
+
+for test_some_case_dist in list(whole.keys())[:20]:
+    plot_frequency(whole[test_some_case_dist])
+```
+
+[![fig1](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)
+[![fig2](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)

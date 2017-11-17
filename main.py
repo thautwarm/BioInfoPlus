@@ -46,4 +46,17 @@ x_labeled = ax.set_xticklabels([f'c{i}' for i in ind])
 plt.show()
 
 
+# 对多个数据集做分析
+
+from research.datasets_report import DatasetsReport
+from research.plot import plot_frequency
+whole = DatasetsReport(*sources).analyze(filtf=lambda probability, std, mean: probability>0.4)
+number_of_dist = len(whole)
+
+for test_some_case_dist in list(whole.keys()):
+    plot_frequency(whole[test_some_case_dist])
+
+
+
+
 

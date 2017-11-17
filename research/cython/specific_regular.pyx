@@ -19,8 +19,8 @@ def specific_report(numpy_arr:np.ndarray, specific:Union[np.ndarray, Dict[int, A
         index    = np.array(specific[0])
         value    = np.array(specific[1])
     else:    
-        index = specific[0]
-        value = specific[1]
+        index = np.array(specific[0])
+        value = np.array(specific[1])
         
     switch = defaultdict(int)
     for case in numpy_arr:
@@ -28,4 +28,7 @@ def specific_report(numpy_arr:np.ndarray, specific:Union[np.ndarray, Dict[int, A
             switch[tuple(case)] += 1
     summary = sum([i for i in switch.values()])
     return {key:value/summary for key, value in switch.items()}
+
+
+
 
