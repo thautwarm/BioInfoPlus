@@ -13,8 +13,10 @@ from preprocess.BioParser import bio_parse
 from research.n_gram import make_gram
 from research.specific_regular import specific_report
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib
 matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+
 
 # 读数据文件
 sources = ['./dssp/sources/1a00.dssp', 

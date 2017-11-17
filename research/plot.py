@@ -6,8 +6,11 @@ Created on Fri Nov 17 11:43:29 2017
 """
 
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib
 matplotlib.use('Agg')
+from matplotlib import pyplot as plt
+
+
 def plot_frequency(frequency):
     ind2key = dict(zip(range(len(frequency)), (i[0] for i in frequency)))
     ind =  np.arange(len(frequency))
