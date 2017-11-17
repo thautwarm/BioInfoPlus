@@ -1,5 +1,6 @@
 # BioInfoPlus
-
+[![Build Status](https://travis-ci.org/thautwarm/BioInfoPlus.svg?branch=master)](https://travis-ci.org/thautwarm/BioInfoPlus)
+[![data](https://img.shields.io/badge/cbi-pku-green.svg?style=flat)](http://www.cbi.pku.edu.cn/main.php?id=100)
 ## Requirement
 
 - NumPy
@@ -14,10 +15,10 @@ Next, find out where **vcvarsall.bat** is in your computer, finally, add its pat
 
 ## Get datas from bioinformation databases
 
-use `./download/dsspGet.py`.  
-see configurations at `./download/dsspPKU.json`.
+use [download/dsspGet.py](https://github.com/thautwarm/BioInfoPlus/blob/master/downloader/dsspGet.py).  
+see configurations at [downloader/dsspPKU.json](https://github.com/thautwarm/BioInfoPlus/blob/master/downloader/dsspPKU.json).
 ```
-python dsspGet.py dsspPKU.json
+cd downloader && python dsspGet.py dsspPKU.json
 ```
 
 ## Process datas into dataframes
@@ -45,7 +46,7 @@ print(frequency.values())
 
 - [Codes](./main.py)
 
-- [![Simple](./blob/master/figure/simple.png)](https://github.com/thautwarm/BioInfoPlus/blob/master/figure/simple.png)
+- [![Simple](./blob/master/figure/simple.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/simple.png)
 
 
 Explanation:
@@ -85,5 +86,5 @@ for test_some_case_dist in list(whole.keys())[:20]:
     plot_frequency(whole[test_some_case_dist])
 ```
 
-[![fig1](./tree/master/figure/dist-prob1.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)
-[![fig2](./tree/master/figure/dist-prob2.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)
+[![fig1](./blob/master/figure/dist-prob1.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)
+[![fig2](./blob/master/figure/dist-prob2.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)
