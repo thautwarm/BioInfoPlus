@@ -47,7 +47,8 @@ plt.show()
 
 
 # 对多个数据集做分析
-
+sources = ['./dssp/sources/1a00.dssp', 
+           './dssp/sources/1a0a.dssp']
 from research.datasets_report import DatasetsReport
 from research.plot import plot_frequency
 whole = DatasetsReport(*sources).analyze(filtf=lambda probability, std, mean: probability>0.4)
