@@ -14,6 +14,7 @@ from research.n_gram import make_gram
 from research.specific_regular import specific_report
 import numpy as np
 from matplotlib import pyplot as plt
+matplotlib.use('Agg')
 
 # 读数据文件
 sources = ['./dssp/sources/1a00.dssp', 

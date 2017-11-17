@@ -45,7 +45,7 @@ print(frequency.values())
 
 - [Codes](./main.py)
 
-- [![Fig](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/simple.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/simple.png)
+- [![Simple](./blob/master/figure/simple.png)](https://github.com/thautwarm/BioInfoPlus/blob/master/figure/simple.png)
 
 
 Explanation:
@@ -85,5 +85,5 @@ for test_some_case_dist in list(whole.keys())[:20]:
     plot_frequency(whole[test_some_case_dist])
 ```
 
-[![fig1](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)
-[![fig2](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)
+[![fig1](./tree/master/figure/dist-prob1.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob1.png)
+[![fig2](./tree/master/figure/dist-prob2.png)](https://github.com/thautwarm/BioInfoPlus/tree/master/figure/dist-prob2.png)
