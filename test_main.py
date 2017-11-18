@@ -33,7 +33,7 @@ for src in sources:
 frequency = specific_report(grams, {0:'V', 1:'A'}) # 研究分布
 
 # 取消注释画图
-# from matplotlib import plt
+# from matplotlib import pyplot as plt
 # print(frequency.values())
 # key2ind = dict(zip(frequency.keys(), range(len(frequency))))
 # ind =  np.array(list(key2ind.values()), dtype=np.int32)

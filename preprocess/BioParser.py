@@ -5,7 +5,7 @@
 
 
 from typing import List
-from tools.Dict import Dict as UDict
+from .tools.Dict import Dict as UDict
 from copy import deepcopy
 from itertools import repeat
 

@@ -45,7 +45,7 @@ print(frequency.values())
 
 ## An example about biological sequence detection
 
-- [Codes](./main.py)
+- [Codes](./test_main.py)
 
 - [![Simple](https://github.com/thautwarm/BioInfoPlus/raw/master/figure/simple.png)](https://github.com/thautwarm/BioInfoPlus/raw/master/figure/simple.png)
 
