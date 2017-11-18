@@ -34,6 +34,8 @@ Structure = dataframe.STRUCTURE # secondary structure
 ## Check the frequency distribution of specific known pattern
 
 ```python
+from research.n_gram import make_gram
+from research.specific_regular import specific_report
 cases = np.array([AA, Structure]).T
 res =  [each_gram.T.flatten() for each_gram in cython_make_gram(cases, 5)]
 from research.specific_regular import specific_report

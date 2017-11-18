@@ -7,7 +7,7 @@
 if __name__ != '__main__':
     raise Exception("`dataGet.py` cannot be imported as a module. Use it as a commandline tool.")
 
-import urllib 
+import urllib.request 
 import sys
 
 # In[2]:
@@ -37,7 +37,7 @@ class closure:
     pass
 
 import json
-with open(configure, 'wb') as toRead:
+with open(configure, 'rb') as toRead:
     conf = json.load(toRead)
     Env  = closure()
     assert set(conf.keys()) == {'pageUrl', 'toStoragePath', 'toUnZippedPath'}

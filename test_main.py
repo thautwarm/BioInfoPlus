@@ -13,9 +13,6 @@ from preprocess.BioParser import bio_parse
 from research.n_gram import make_gram
 from research.specific_regular import specific_report
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
-from matplotlib import pyplot as plt
 
 
 # 读数据文件
@@ -36,6 +33,7 @@ for src in sources:
 frequency = specific_report(grams, {0:'V', 1:'A'}) # 研究分布
 
 # 取消注释画图
+# from matplotlib import plt
 # print(frequency.values())
 # key2ind = dict(zip(frequency.keys(), range(len(frequency))))
 # ind =  np.array(list(key2ind.values()), dtype=np.int32)
@@ -54,11 +52,11 @@ frequency = specific_report(grams, {0:'V', 1:'A'}) # 研究分布
 sources = ['./dssp/sources/1a00.dssp', 
            './dssp/sources/1a0a.dssp']
 from research.datasets_report import DatasetsReport
-from research.plot import plot_frequency
 whole = DatasetsReport(*sources).analyze(filtf=lambda probability, std, mean: probability>0.4)
 number_of_dist = len(whole)
 
 # 取消注释画图
+# from research.plot import plot_frequency
 for test_some_case_dist in list(whole.keys()):
     print(whole[test_some_case_dist])
     # plot_frequency(whole[test_some_case_dist])

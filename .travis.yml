@@ -6,6 +6,6 @@ python:
 script:
   - pip install -r requirements.txt
   - python tests.py
-  - python main.py
+  - python test_main.py
 
 
