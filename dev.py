@@ -4,19 +4,33 @@ Created on Tue Oct 31 17:25:51 2017
 
 @author: misaka-wa
 """
-import os
-data_root = './comparison/DSSP'
-sources = map(lambda path: f'{data_root}/{path}', os.listdir(data_root))
-from research.datasets_report import DatasetsReport
-from research.plot import plot_frequency
+from Redy.Tools.PathLib import Path
+from bioinfoplus.utils.dssp.parser import parse
+from bioinfoplus.utils.dssp.preprocess import preprocess
+from bioinfoplus.experiment.dssp import Analytic, dssp_to_grams
+dfs = []
+test = []
+paths = Path(
+    r'C:\Users\twshe\git\tex\BioInfoPlus\downloader\data').list_dir()[:500]
 
-sources = list(sources)[:50]
+print(len(paths))
 
-whole = DatasetsReport(*sources).analyze(filtf=lambda v, std, mean: v>mean+3*std)
-number_of_dist = len(whole)
-for test_some_case_dist in list(whole.keys()):
-    if whole[test_some_case_dist][0][1]>0.4:
-        plot_frequency(whole[test_some_case_dist])
-    
-    
-    
+for each in paths[:-50]:
+    dfs.append(preprocess(parse(str(each))))
+
+for each in paths[-50:]:
+    test.append(preprocess(parse(str(each))))
+analytic = Analytic(*dfs, gram_size=4)
+
+#analytic.as_fixed_graph()
+grams = dssp_to_grams(*test, gram_size=4)
+#for gram in grams:
+#    print('================================')
+#
+#    unified = analytic.query(gram.lens(loc=2, primary=None))
+#    print(len(unified))
+#    if unified:
+#        print(unified[0])
+#    else:
+#        print('not found')
+#    print(gram)

@@ -5,7 +5,7 @@ Created on Fri Nov 17 12:27:52 2017
 @author: misakawa
 """
 
-from preprocess.BioParser import bio_parse
+from bioinfoplus.utils.dssp.parser import parse
 from research.n_gram import make_gram
 from research.whole_regular import whole_report
 import numpy as np
@@ -14,7 +14,7 @@ class DatasetsReport:
     def __init__(self, *paths:'Paths of your datasets', number_of_gram = 5):
         grams = []
         for path in paths:
-            dataframe = bio_parse(path)
+            dataframe = parse(path)
             AA = dataframe.AA.map(lambda x:x.replace(' ', ''))
             Structure = dataframe.STRUCTURE 
             cases = np.array([AA, Structure]).T

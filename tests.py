@@ -6,8 +6,8 @@ Created on Tue Oct 31 17:25:51 2017
 """
 
 # <Test> [preprocessing::BioParser]
-from preprocess.BioParser import bio_parse
-dataframe = bio_parse('./dssp/sources/1a00.dssp')
+from bioinfoplus.utils.dssp.parser import parse
+dataframe = parse('./dssp/sources/1a00.dssp')
 AA = dataframe.AA.map(lambda x:x.replace(' ', '')) # amino acid
 Structure = dataframe.STRUCTURE # secondary structure
 

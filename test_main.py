@@ -9,7 +9,7 @@ Making statistical analysis on some dssp datas.
 """
 
 
-from preprocess.BioParser import bio_parse
+from bioinfoplus.utils.dssp.parser import parse
 from research.n_gram import make_gram
 from research.specific_regular import specific_report
 import numpy as np
@@ -23,7 +23,7 @@ sources = ['./dssp/sources/1a00.dssp',
            './dssp/sources/1a0d.dssp']
 grams = []
 for src in sources:
-    dataframe = bio_parse(src)
+    dataframe = parse(src)
     AA = dataframe.AA.map(lambda x:x.replace(' ', ''))
     Structure = dataframe.STRUCTURE 
     cases = np.array([AA, Structure]).T
