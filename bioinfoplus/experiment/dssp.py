@@ -78,8 +78,6 @@ class Analytic:
         self.data = np.array([each_gram.T.flatten() for each_gram in grams])
 
         # prospective
-        self.knowledge_graph = None
-        self.ml_md = None
 
     def encode_data(self, raw_df):
         encoder = self.encoder
@@ -88,17 +86,6 @@ class Analytic:
         data_pairs = np.array(tuple(zip(amino_acid, structure)))
         grams = make_gram(data_pairs, gram_size=self.gram_size, stride=1)
         return np.array([each_gram.T.flatten() for each_gram in grams])
-
-    def as_fixed_graph(self):
-        if not self.knowledge_graph or not self.encoder:
-            data = self.data
-            knowledge_graph = get_conditional_dist(data)
-            for precondition, distribution in knowledge_graph.items():
-                distribution_count = sum(distribution.values())
-                if distribution_count:
-                    for each in tuple(distribution):
-                        distribution[each] /= distribution_count
-            self.knowledge_graph = knowledge_graph
 
     def ml_test(self, test_loc: int,
                 grams: t.Union[np.array, pd.DataFrame, t.List[Gram]], md):
@@ -122,43 +109,7 @@ class Analytic:
         print(md.score(*split(test_data)))
 
     def query(self, seq: t.Union[Gram, t.List[t.Tuple[str, str]]]):
-        if isinstance(seq, Gram):
-            seq = tuple(zip(seq.primary, seq.secondary))
-
-        if self.knowledge_graph:
-            # FLATTEN
-            vec = sum(zip(*self.encoder.transform_batch(seq)), ())
-            # noinspection PyComparisonWithNone
-            prospective: dict = self.knowledge_graph[vec]
-            encoded = sorted(
-                prospective.items(), key=lambda it: it[1], reverse=True)
-            return tuple((Gram(self.encoder.decode(k)), v) for k, v in encoded)
-        else:
-
-            def match(gram1, gram2):
-                def eq(a, b):
-                    return a is None or b is None or a == b
-
-                return all(
-                    eq(g1[0], g2[0]) and eq(g1[1], g2[1])
-                    for g1, g2 in zip(gram1, gram2))
-
-            def stream():
-                for raw_df in self.raw_dfs:
-                    structure = raw_df.STRUCTURE
-                    amino_acid = raw_df.AA
-                    data_pairs = np.array(tuple(zip(amino_acid, structure)))
-                    grams = make_gram(
-                        data_pairs, gram_size=self.gram_size, stride=1)
-                    for each in grams:
-                        if match(each, seq):
-                            yield sum((zip(*each)), ())
-
-            count = Counter(stream())
-            summary = sum(count.values())
-            return tuple(
-                (Gram(k), v / summary)
-                for k, v in sorted(count.items(), key=lambda it: it[1]))
+        raise NotImplemented
 
 
 def dssp_to_grams(*raw_dfs, gram_size=6):
