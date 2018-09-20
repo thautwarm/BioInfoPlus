@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import sklearn as skl
+import random
+from bioinfoplus.experiment.solver import Solver, mlp, RegularNet
 from bioinfoplus.algorithm.ngram import make_gram
 from bioinfoplus.algorithm.encoding import Encoder
 from bioinfoplus.algorithm.dist import get_conditional_dist
@@ -10,6 +11,10 @@ import typing as t
 gram__slots = ['secondary', 'primary']
 
 hold = object()
+
+
+def to_list_seq(seqs):
+    return (list(seq) for seq in seqs)
 
 
 class Gram:
@@ -57,35 +62,73 @@ class Gram:
 
 
 class Analytic:
-    def __init__(self, *raw_dfs: pd.DataFrame, gram_size=6):
+    def __init__(self, *raw_dfs: pd.DataFrame, gram_size=6, md=None):
         self.raw_dfs = raw_dfs
         self.gram_size = gram_size
 
-        mapping_set = set()
+        primary_set = set()
+        secondary_set = set()
+
         for raw_df in self.raw_dfs:
-            mapping_set.update({*raw_df.AA, *raw_df.STRUCTURE})
+            primary_set.update(raw_df.AA)
+            secondary_set.update(raw_df.STRUCTURE)
+        self.primary_encoder = primary_encoder = Encoder(primary_set)
+        self.secondary_encoder = secondary_encoder = Encoder(secondary_set)
+
+        self.solver = Solver(gram_size, len(primary_set), len(secondary_set))
+
+        self.primary_seqs = primary_seqs = []
+        self.secondary_seqs = secondary_seqs = []
+
+        for raw_df in self.raw_dfs:
+            amino_acid = primary_encoder.transform(raw_df.AA)
+            structure = secondary_encoder.transform(raw_df.STRUCTURE)
+            primary_seqs.extend(
+                to_list_seq(
+                    make_gram(amino_acid, gram_size=gram_size, stride=1)))
+            secondary_seqs.extend(
+                to_list_seq(
+                    make_gram(structure, gram_size=gram_size, stride=1)))
+
+    def encode_data(self, *raw_dfs):
+        self.primary_seqs = primary_seqs = []
+        self.secondary_seqs = secondary_seqs = []
+        primary_encoder = self.primary_encoder
+        secondary_encoder = self.secondary_encoder
         gram_size = self.gram_size
-        self.encoder = encoder = Encoder(mapping_set)
-        grams = []
-
         for raw_df in self.raw_dfs:
-            structure = encoder.transform(raw_df.STRUCTURE)
-            amino_acid = encoder.transform(raw_df.AA)
-            data_pairs = np.array(tuple(zip(amino_acid, structure)))
-            grams.extend(make_gram(data_pairs, gram_size=gram_size, stride=1))
+            amino_acid = primary_encoder.transform(raw_df.AA)
+            structure = secondary_encoder.transform(raw_df.STRUCTURE)
+            primary_seqs.extend(to_list_seq(make_gram(amino_acid, gram_size=gram_size, stride=1)))
+            secondary_seqs.extend(to_list_seq(make_gram(structure, gram_size=gram_size, stride=1)))
 
-        self.grams = grams
-        self.data = np.array([each_gram.T.flatten() for each_gram in grams])
+        return primary_seqs, secondary_seqs
 
-        # prospective
+    def build_solver(self, *, lr=0.0001, epoch=100, verbose=True):
+        self.solver.tuning_constraint(
+            self.primary_seqs,
+            self.secondary_seqs,
+            lr=lr,
+            epoch=epoch,
+            verbose=verbose)
 
-    def encode_data(self, raw_df):
-        encoder = self.encoder
-        structure = encoder.transform(raw_df.STRUCTURE)
-        amino_acid = encoder.transform(raw_df.AA)
-        data_pairs = np.array(tuple(zip(amino_acid, structure)))
-        grams = make_gram(data_pairs, gram_size=self.gram_size, stride=1)
-        return np.array([each_gram.T.flatten() for each_gram in grams])
+    def resolve(self,
+                primary_inputs,
+                secondary_inputs,
+                *,
+                lr=0.0001,
+                epoch=100,
+                verbose=True):
+        resolve = self.solver.resolve_variable
+
+        def stream():
+            for primary_input, secondary_input in zip(primary_inputs,
+                                                      secondary_inputs):
+                yield resolve(
+                    primary_input,
+                    secondary_input)
+
+        return zip(*stream())
 
     def ml_test(self, test_loc: int,
                 grams: t.Union[np.array, pd.DataFrame, t.List[Gram]], md):
@@ -110,12 +153,3 @@ class Analytic:
 
     def query(self, seq: t.Union[Gram, t.List[t.Tuple[str, str]]]):
         raise NotImplemented
-
-
-def dssp_to_grams(*raw_dfs, gram_size=6):
-    for raw_df in raw_dfs:
-        structure = raw_df.STRUCTURE
-        amino_acid = raw_df.AA
-        data_pairs = np.array(tuple(zip(amino_acid, structure)))
-        grams = make_gram(data_pairs, gram_size=gram_size, stride=1)
-        yield from map(Gram, [each.T.flatten() for each in grams])

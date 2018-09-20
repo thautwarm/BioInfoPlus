@@ -8,13 +8,13 @@ class Encoder:
             mapping[each] = len(mapping)
         self.inverse_mapping = {v: k for k, v in self.mapping.items()}
 
-    def transform(self, vec, strict=False):
+    def transform(self, vec, strict=True):
         mapping = self.mapping
         get = mapping.get
         maps = mapping.__getitem__ if strict else lambda key: get(key, -1)
         return tuple(map(maps, vec))
 
-    def transform_batch(self, matrix, strict=False):
+    def transform_batch(self, matrix, strict=True):
         mapping = self.mapping
         get = mapping.get
         maps = mapping.__getitem__ if strict else lambda key: get(key, -1)

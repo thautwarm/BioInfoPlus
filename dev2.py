@@ -14,6 +14,8 @@ sec_s = 4
 
 solver = Solver(5, 5, 4)
 
-solver.tuning_constraint(pri, sec, epoch=1000)
+solver.tuning_constraint(pri, sec, epoch=100, verbose=False)
 
-print(solver.resolve_variable([4, 1, 2, None, 3], [2, 2, 3, 1, 0], lr=0.01))
+
+print(solver.resolve_variable([4, 1, 2, None, 3], [2, 2, 3, 1, 0], lr=0.02, epoch=10, verbose=True))
+#
