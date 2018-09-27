@@ -10,7 +10,7 @@ talking = Talking()
 
 
 @talking
-def do(o: 'download path' = 'data',
+def run(o: 'download path' = 'data',
        *,
        page_url:
        'page url' = 'ftp://ftp.cbi.pku.edu.cn/pub/database/DSSP/20130820'):
