@@ -14,7 +14,7 @@ test = []
 paths = Path(
     r'C:\Users\twshe\git\tex\BioInfoPlus\downloader\data').list_dir()[:500]
 
-for each in paths[:100]:
+for each in paths[:80]:
     dfs.append(preprocess(parse(str(each))))
 
 for each in paths[100:110]:
@@ -36,13 +36,13 @@ def lens(seq, loc, value):
     seq[loc] = value
     return seq
 
-s_pri, s_sec = analytic.resolve([lens(e, loc=2, value=None) for e in pri], 
-                                sec)
+s_pri, s_sec = analytic.resolve(pri, 
+                                [lens(e, loc=2, value=None) for e in sec])
 
 
 def stat(seq):
     return seq.sum() / len(seq)
-print(stat(np.array([c == d for c, d in zip(s_pri, pri)])))
+print(stat(np.array([c == d for c, d in zip(s_sec, sec)])))
 
 #    
 

@@ -38,7 +38,7 @@ def mlp(*layer_sizes):
 
     def application(inp):
         for param, bias in zip(params, biases):
-            inp = F.relu(inp @ param - bias)
+            inp = F.dropout(F.relu(inp @ param - bias))
         return inp
 
     param_lst = []
@@ -178,7 +178,7 @@ class Solver(torch.nn.Module):
         self.secondary_species = secondary_species
         self.primary_species = primary_species
         width = (secondary_species + primary_species) * n_input
-        self.constraint_params, self._forward = mlp(width, width // 2, 1)
+        self.constraint_params, self._forward = mlp(width, width, 1)
         self.params = None
 
         inp_size = primary_species * n_input
